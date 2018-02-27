@@ -21,7 +21,8 @@ state = {
     meat: 0
   },
   totalPrice: 4,
-  purchasable: false
+  purchasable: false,
+  purchasing: false
 }
 
 
@@ -64,6 +65,15 @@ removeIgredientHandler = (type) => {
   this.setState({totalPrice: newPrice, ingredients: updatedIngredients});
   this.updatePurchaseSate(updatedIngredients);
 }
+
+purchasehandler = () => {
+  this.setState({purchasing: true});
+}
+
+purchaseCancleHAndler = () =>{
+   this.setState({purchasing: false});
+}
+
   render(){
     const disabledInfo = {
       ...this.state.ingredients
@@ -73,7 +83,8 @@ removeIgredientHandler = (type) => {
     }
     return(
         <Aux>
-          <Modal>
+
+          <Modal show={this.state.purchasing} modalClosed={this.purchaseCancleHAndler}>
                 <OrderSummary ingredients={this.state.ingredients} />
           </Modal>
           <Burger ingredients={this.state.ingredients}/>
@@ -82,6 +93,7 @@ removeIgredientHandler = (type) => {
             indgredientDeducted = {this.removeIgredientHandler}
             disabled={disabledInfo}
             purchasable={this.state.purchasable}
+            ordered={this.purchasehandler}
             price={this.state.totalPrice}
 
            />
